@@ -13,7 +13,7 @@ class AppConfigTestCase(unittest.TestCase):
 }'''
 
         self.json_output_1 = '''{
-    "id": 1234,
+    "id": "/jenkins",
     "cmd": "/bin/bash",
     "cpus": 0.1,
     "mem": 10.0,
@@ -21,7 +21,7 @@ class AppConfigTestCase(unittest.TestCase):
 }'''
 
         self.json_output_2 = '''{
-    "id": 2345,
+    "id": "/hello-world",
     "cmd": "/bin/sh",
     "cpus": 2.0,
     "mem": 1024.0,
@@ -29,14 +29,14 @@ class AppConfigTestCase(unittest.TestCase):
 }'''
 
         self.yaml_input_1 = '''
-id: 1234
+id: /jenkins
 cmd: /bin/bash
 cpus: 0.1
 mem: 10.0
 instances: 1'''
 
         self.yaml_input_2 = '''
-id: 2345
+id: /hello-world
 cmd: /bin/sh
 cpus: 2
 mem: 1024.0

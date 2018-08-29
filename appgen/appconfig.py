@@ -10,21 +10,61 @@ class AppConfig():
         self._mem = 10.0
         self._instances = 1
 
+    @property
+    def id(self):
+        return self._id
+
+    @id.setter
+    def id(self, value):
+        self._id = str(value)
+
+    @property
+    def cpus(self):
+        return self._cpus
+
+    @cpus.setter
+    def cpus(self, value):
+        self._cpus = float(value)
+
+    @property
+    def cmd(self):
+        return self._cmd
+
+    @cmd.setter
+    def cmd(self, value):
+        self._cmd = str(value)
+
+    @property
+    def mem(self):
+        return self._mem
+
+    @mem.setter
+    def mem(self, value):
+        self._mem = float(value)
+
+    @property
+    def instances(self):
+        return self._instances
+
+    @instances.setter
+    def instances(self, value):
+        self._instances = int(value)
+
     def loadyaml(self, input):
         y = yaml.load(input)
         print(y)
-        self._id = y['id']
-        self._cmd = y['cmd']
-        self._cpus = float(y['cpus'])
-        self._mem = float(y['mem'])
-        self._instances = int(y['instances'])
+        self.id = y['id']
+        self.cmd = y['cmd']
+        self.cpus = y['cpus']
+        self.mem = float(y['mem'])
+        self.instances = int(y['instances'])
 
     def getjson(self):
         d = {
-            "id": self._id,
-            "cmd": self._cmd,
-            "cpus": self._cpus,
-            "mem": self._mem,
-            "instances": self._instances
+            "id": self.id,
+            "cmd": self.cmd,
+            "cpus": self.cpus,
+            "mem": self.mem,
+            "instances": self.instances
         }
         return json.dumps(d, indent=4)
