@@ -1,3 +1,5 @@
 venv/
 appgen.egg-info/
 __pycache__/
+build/
+dist/
