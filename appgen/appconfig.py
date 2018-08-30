@@ -52,7 +52,6 @@ class AppConfig():
 
     def loadyaml(self, input):
         y = yaml.load(input)
-        print(y)
         self.id = y['id']
         self.cmd = y['cmd']
         self.cpus = y['cpus']
