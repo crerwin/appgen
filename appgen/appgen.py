@@ -1,10 +1,12 @@
 import sys
 import json
+import logging
 from appgen.merger import Merger
 from appgen.parser import Parser
 
 
 def main():
+    logger = getlogger(logging.DEBUG)
     app = {}
     args = sys.argv[1:]
     parser = Parser()
@@ -18,6 +20,7 @@ def main():
             devconf = parser.loadfile(devconffile)
             opsconf = parser.loadfile(opsconffile)
             defaults = parser.loadfile(defaultsfile)
+            logger.debug('devconf:' + json.dumps(devconf))
             app = merger.mergeconfigs(devconf, opsconf, defaults)
             return json.dumps(app)
         else:
@@ -38,3 +41,14 @@ def validfilenames(*filenames):
                 valid = False
                 invalidnames.append(filename)
     return valid, invalidnames
+
+
+def getlogger(level):
+    logger = logging.getLogger()
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter(
+        '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    logger.setLevel(level)
+    return logger
