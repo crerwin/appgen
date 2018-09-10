@@ -7,10 +7,13 @@ from appgen.configparser import ConfigParser
 
 
 def main():
-    logger = getlogger(logging.DEBUG)
+    logger = getlogger(logging.INFO)
     app = {}
     args = sys.argv[1:]
     argresults = getparser(args)
+    if argresults.verbose:
+        logger.info('setting log level to DEBUG')
+        logger.setLevel(logging.DEBUG)
     configparser = ConfigParser()
     merger = Merger()
     valid = validfilenames(argresults.devconffile, argresults.opsconffile,
@@ -24,12 +27,16 @@ def main():
         logger.debug('defaults: ' + json.dumps(defaults))
         app = merger.mergeconfigs(devconf, opsconf, defaults)
         if argresults.outputfile is not None:
-            writefile(argresults.outputfile, json.dumps(app))
+            writefile(argresults.outputfile, jsonoutput(app))
             return 0
         else:
-            return json.dumps(app)
+            return jsonoutput(app)
     else:
         logger.error('invalid file name(s): ' + ' '.join(valid[1]))
+
+
+def jsonoutput(input):
+    return json.dumps(input, indent=4)
 
 
 def validfilenames(*filenames):
@@ -46,11 +53,16 @@ def validfilenames(*filenames):
 
 def writefile(filename, output):
     logger = logging.getLogger('appgen')
+    logger.info('writing output to file as requested.')
     if not filename.endswith('.json'):
-        logger.warning('output file name does not end with .json')
+        logger.warning('output file ' + filename +
+                       ' - name does not end with .json')
+    logger.info('opening' + filename + 'for writing')
     file = open(filename, "w")
+    logger.info('writing to ' + filename)
     file.write(output)
     file.close()
+    logger.info('Finished.')
 
 
 def getparser(args):
@@ -68,6 +80,8 @@ def getparser(args):
                         help='Optional: specify a file to output application' +
                         ' configuration to.  Will output to STDOUT if not ' +
                         'specified.')
+    parser.add_argument('-v', action='store_true', dest='verbose',
+                        help='Optional: verbose logging')
     return parser.parse_args(args)
 
 
