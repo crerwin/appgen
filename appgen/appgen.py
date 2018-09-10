@@ -23,7 +23,11 @@ def main():
         logger.debug('opsconf: ' + json.dumps(opsconf))
         logger.debug('defaults: ' + json.dumps(defaults))
         app = merger.mergeconfigs(devconf, opsconf, defaults)
-        return json.dumps(app)
+        if argresults.outputfile is not None:
+            writefile(argresults.outputfile, json.dumps(app))
+            return 0
+        else:
+            return json.dumps(app)
     else:
         logger.error('invalid file name(s): ' + ' '.join(valid[1]))
 
@@ -40,14 +44,27 @@ def validfilenames(*filenames):
     return valid, invalidnames
 
 
+def writefile(filename, output):
+    file = open(filename, "w")
+    file.write(output)
+    file.close()
+
+
 def getparser(args):
     parser = argparse.ArgumentParser(description='Application Generator')
     parser.add_argument('-devconf', action='store',
-                        dest='devconffile', required=True)
+                        dest='devconffile', required=True,
+                        help='REQUIRED: developer configuration file')
     parser.add_argument('-opsconf', action='store',
-                        dest='opsconffile', required=True)
+                        dest='opsconffile', required=True,
+                        help='REQUIRED: operations configuration file')
     parser.add_argument('-defaults', action='store',
-                        dest='defaultsfile', required=True)
+                        dest='defaultsfile', required=True,
+                        help='REQUIRED: defaults configuration file')
+    parser.add_argument('-out', action='store', dest='outputfile',
+                        help='Optional: specify a file to output application' +
+                        ' configuration to.  Will output to STDOUT if not ' +
+                        'specified.')
     return parser.parse_args(args)
 
 
