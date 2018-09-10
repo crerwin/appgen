@@ -14,6 +14,11 @@ def main():
     if argresults.verbose:
         logger.info('setting log level to DEBUG')
         logger.setLevel(logging.DEBUG)
+    return run(argresults)
+
+
+def run(argresults):
+    logger = logging.getLogger('appgen')
     configparser = ConfigParser()
     merger = Merger()
     valid = validfilenames(argresults.devconffile, argresults.opsconffile,
@@ -33,7 +38,7 @@ def main():
             return jsonoutput(app)
     else:
         logger.error('invalid file name(s): ' + ' '.join(valid[1]))
-
+        return 1
 
 def jsonoutput(input):
     return json.dumps(input, indent=4)
