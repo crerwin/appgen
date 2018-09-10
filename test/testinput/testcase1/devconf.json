@@ -1,0 +1,5 @@
+{
+    "id": "/finance/billing_app",
+    "cmd": "/bin/billing_app -production",
+    "cpus": 0.5
+}

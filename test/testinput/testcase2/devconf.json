@@ -1,0 +1,10 @@
+{
+    "id": "/finance/billing_app",
+    "cmd": "/bin/billing_app -production",
+    "cpus": 0.5,
+    "container": {
+      "type": "DOCKER",
+      "docker": {
+        "image": "billing_app:latest"
+      }
+}
