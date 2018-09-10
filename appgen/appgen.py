@@ -18,11 +18,8 @@ def main():
             devconf = parser.loadfile(devconffile)
             opsconf = parser.loadfile(opsconffile)
             defaults = parser.loadfile(defaultsfile)
-            print("devconf: ", devconf)
-            print("opsconf: ", opsconf)
-            print("defaults: ", defaults)
             app = merger.mergeconfigs(devconf, opsconf, defaults)
-            return app
+            return json.dumps(app)
         else:
             print("invalid file name(s): ", valid[1])
     else:

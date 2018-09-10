@@ -7,4 +7,5 @@
       "docker": {
         "image": "billing_app:latest"
       }
+    }
 }
