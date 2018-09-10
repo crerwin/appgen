@@ -9,6 +9,7 @@ def main():
     logger = getlogger(logging.DEBUG)
     app = {}
     args = sys.argv[1:]
+    logger.debug('args:' + args)
     parser = Parser()
     merger = Merger()
     if len(args) == 3:
