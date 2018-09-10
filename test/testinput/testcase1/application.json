@@ -1,0 +1,7 @@
+{
+    "cpus": 0.5,
+    "mem": 10.0,
+    "instances": 1,
+    "id": "/finance/billing_app",
+    "cmd": "/bin/billing_app -production"
+}
