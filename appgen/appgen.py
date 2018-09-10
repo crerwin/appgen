@@ -19,8 +19,8 @@ def main():
         devconf = configparser.loadfile(argresults.devconffile)
         opsconf = configparser.loadfile(argresults.opsconffile)
         defaults = configparser.loadfile(argresults.defaultsfile)
-        logger.debug('devconf:' + json.dumps(devconf))
-        logger.debug('opsconf:' + json.dumps(opsconf))
+        logger.debug('devconf: ' + json.dumps(devconf))
+        logger.debug('opsconf: ' + json.dumps(opsconf))
         logger.debug('defaults: ' + json.dumps(defaults))
         app = merger.mergeconfigs(devconf, opsconf, defaults)
         return json.dumps(app)
@@ -42,9 +42,12 @@ def validfilenames(*filenames):
 
 def getparser(args):
     parser = argparse.ArgumentParser(description='Application Generator')
-    parser.add_argument('-devconf', action='store', dest='devconffile')
-    parser.add_argument('-opsconf', action='store', dest='opsconffile')
-    parser.add_argument('-defaults', action='store', dest='defaultsfile')
+    parser.add_argument('-devconf', action='store',
+                        dest='devconffile', required=True)
+    parser.add_argument('-opsconf', action='store',
+                        dest='opsconffile', required=True)
+    parser.add_argument('-defaults', action='store',
+                        dest='defaultsfile', required=True)
     return parser.parse_args(args)
 
 
