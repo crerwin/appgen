@@ -9,7 +9,6 @@ def main():
     logger = getlogger(logging.DEBUG)
     app = {}
     args = sys.argv[1:]
-    logger.debug('args:' + args)
     parser = Parser()
     merger = Merger()
     if len(args) == 3:
@@ -22,14 +21,16 @@ def main():
             opsconf = parser.loadfile(opsconffile)
             defaults = parser.loadfile(defaultsfile)
             logger.debug('devconf:' + json.dumps(devconf))
+            logger.debug('opsconf:' + json.dumps(opsconf))
+            logger.debug('defaults: ' + json.dumps(defaults))
             app = merger.mergeconfigs(devconf, opsconf, defaults)
             return json.dumps(app)
         else:
-            print("invalid file name(s): ", valid[1])
+            logger.error('invalid file name(s): ' + ' '.join(valid[1]))
     else:
-        print('appgen takes three arguments.  usage:'
-              + 'appgen devconf.[yml|yaml|json] opsconf.[yml|yaml|json]'
-              + ' defaults.[yml|yaml|json]')
+        logger.error('appgen takes three arguments.  usage:'
+                     + 'appgen devconf.[yml|yaml|json] opsconf.[yml|yaml|json]'
+                     + ' defaults.[yml|yaml|json]')
 
 
 def validfilenames(*filenames):
