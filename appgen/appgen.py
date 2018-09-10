@@ -1,4 +1,5 @@
 import sys
+import argparse
 import json
 import logging
 from appgen.merger import Merger
@@ -9,28 +10,22 @@ def main():
     logger = getlogger(logging.DEBUG)
     app = {}
     args = sys.argv[1:]
+    argresults = getparser(args)
     configparser = ConfigParser()
     merger = Merger()
-    if len(args) == 3:
-        devconffile = args[0]
-        opsconffile = args[1]
-        defaultsfile = args[2]
-        valid = validfilenames(devconffile, opsconffile, defaultsfile)
-        if valid[0]:
-            devconf = configparser.loadfile(devconffile)
-            opsconf = configparser.loadfile(opsconffile)
-            defaults = configparser.loadfile(defaultsfile)
-            logger.debug('devconf:' + json.dumps(devconf))
-            logger.debug('opsconf:' + json.dumps(opsconf))
-            logger.debug('defaults: ' + json.dumps(defaults))
-            app = merger.mergeconfigs(devconf, opsconf, defaults)
-            return json.dumps(app)
-        else:
-            logger.error('invalid file name(s): ' + ' '.join(valid[1]))
+    valid = validfilenames(argresults.devconffile, argresults.opsconffile,
+                           argresults.defaultsfile)
+    if valid[0]:
+        devconf = configparser.loadfile(argresults.devconffile)
+        opsconf = configparser.loadfile(argresults.opsconffile)
+        defaults = configparser.loadfile(argresults.defaultsfile)
+        logger.debug('devconf:' + json.dumps(devconf))
+        logger.debug('opsconf:' + json.dumps(opsconf))
+        logger.debug('defaults: ' + json.dumps(defaults))
+        app = merger.mergeconfigs(devconf, opsconf, defaults)
+        return json.dumps(app)
     else:
-        logger.error('appgen takes three arguments.  usage:'
-                     + 'appgen devconf.[yml|yaml|json] opsconf.[yml|yaml|json]'
-                     + ' defaults.[yml|yaml|json]')
+        logger.error('invalid file name(s): ' + ' '.join(valid[1]))
 
 
 def validfilenames(*filenames):
@@ -43,6 +38,14 @@ def validfilenames(*filenames):
                 valid = False
                 invalidnames.append(filename)
     return valid, invalidnames
+
+
+def getparser(args):
+    parser = argparse.ArgumentParser(description='Application Generator')
+    parser.add_argument('-devconf', action='store', dest='devconffile')
+    parser.add_argument('-opsconf', action='store', dest='opsconffile')
+    parser.add_argument('-defaults', action='store', dest='defaultsfile')
+    return parser.parse_args(args)
 
 
 def getlogger(level):
