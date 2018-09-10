@@ -40,6 +40,7 @@ def run(argresults):
         logger.error('invalid file name(s): ' + ' '.join(valid[1]))
         return 1
 
+
 def jsonoutput(input):
     return json.dumps(input, indent=4)
 
