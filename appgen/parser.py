@@ -1,15 +1,24 @@
-from yaml import load, dump
+import yaml
+import json
 
 
 class Parser():
-    def __init__(self, thing):
-        self.thing = thing
+    def getdict(self, input, expected_format):
+        if expected_format == 'json':
+            dict = json.loads(input)
+        elif expected_format == 'yaml':
+            dict = yaml.load(input)
+        else:
+            dict = ""
+        return dict
 
-    def getdump(self):
-        return self.thing
-
-    def getinputsfromyaml(self, yaml):
-        return 0
-
-    def getappdefinition(self, inputs):
-        return 0
+    def loadfile(self, filename):
+        if filename.endswith('json'):
+            input = open(filename).read()
+            dict = self.getdict(input, 'json')
+        elif filename.endswith('yml') or filename.endswith('yaml'):
+            input = open(filename).read()
+            dict = self.getdict(input, 'yaml')
+        else:
+            dict = ""
+        return dict
