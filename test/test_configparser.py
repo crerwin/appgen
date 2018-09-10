@@ -1,11 +1,11 @@
 import unittest
 from appgen import appgen
-from appgen.parser import Parser
+from appgen.configparser import ConfigParser
 
 
-class DumpTestCase(unittest.TestCase):
+class ConfigParserTestCase(unittest.TestCase):
     def setUp(self):
-        self.testparser = Parser()
+        self.testparser = ConfigParser()
         self.yaml_input_1 = '''
 id: /jenkins
 cmd: /bin/bash

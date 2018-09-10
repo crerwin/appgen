@@ -2,7 +2,7 @@ import yaml
 import json
 
 
-class Parser():
+class ConfigParser():
     def getdict(self, input, expected_format):
         if expected_format == 'json':
             dict = json.loads(input)

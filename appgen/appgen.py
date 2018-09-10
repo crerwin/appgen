@@ -2,14 +2,14 @@ import sys
 import json
 import logging
 from appgen.merger import Merger
-from appgen.parser import Parser
+from appgen.configparser import ConfigParser
 
 
 def main():
     logger = getlogger(logging.DEBUG)
     app = {}
     args = sys.argv[1:]
-    parser = Parser()
+    configparser = ConfigParser()
     merger = Merger()
     if len(args) == 3:
         devconffile = args[0]
@@ -17,9 +17,9 @@ def main():
         defaultsfile = args[2]
         valid = validfilenames(devconffile, opsconffile, defaultsfile)
         if valid[0]:
-            devconf = parser.loadfile(devconffile)
-            opsconf = parser.loadfile(opsconffile)
-            defaults = parser.loadfile(defaultsfile)
+            devconf = configparser.loadfile(devconffile)
+            opsconf = configparser.loadfile(opsconffile)
+            defaults = configparser.loadfile(defaultsfile)
             logger.debug('devconf:' + json.dumps(devconf))
             logger.debug('opsconf:' + json.dumps(opsconf))
             logger.debug('defaults: ' + json.dumps(defaults))
