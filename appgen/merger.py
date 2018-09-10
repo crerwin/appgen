@@ -18,3 +18,12 @@ class Merger():
             if key not in allowedkeys:
                 compliant = False
         return compliant
+
+    def mergeconfigs(self, devdict, opsdict, defaults):
+        app = {}
+        if self.checkforconflicts(devdict, opsdict) == (False, None):
+            if self.checkforconflicts(opsdict, defaults) == (False, None):
+                app.update(defaults)
+                app.update(opsdict)
+                app.update(devdict)
+        return app
