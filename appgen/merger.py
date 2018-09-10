@@ -11,14 +11,6 @@ class Merger():
                 conflicting_key = key
         return conflict, conflicting_key
 
-    def checkforcompliance(self, devdict, allowedkeys):
-        # deprecated...probably
-        compliant = True
-        for key in devdict:
-            if key not in allowedkeys:
-                compliant = False
-        return compliant
-
     def mergeconfigs(self, devdict, opsdict, defaults):
         app = {}
         if self.checkforconflicts(devdict, opsdict) == (False, None):
