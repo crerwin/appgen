@@ -45,6 +45,9 @@ def validfilenames(*filenames):
 
 
 def writefile(filename, output):
+    logger = logging.getLogger('appgen')
+    if not filename.endswith('.json'):
+        logger.warning('output file name does not end with .json')
     file = open(filename, "w")
     file.write(output)
     file.close()
@@ -69,7 +72,7 @@ def getparser(args):
 
 
 def getlogger(level):
-    logger = logging.getLogger()
+    logger = logging.getLogger('appgen')
     handler = logging.StreamHandler()
     formatter = logging.Formatter(
         '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
